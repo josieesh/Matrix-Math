@@ -2,7 +2,7 @@
 
 /* Matrix::Matrix()
 {
-	row = 0; 
+	row = 0;
 	col = 0;
 } */
 
@@ -10,17 +10,17 @@ Matrix::Matrix(const int newrow, const int newcol)
 {
 	row = (newrow > 0? newrow : 100);
 	col = (newcol > 0? newcol : 100);
-	
-	ptr = new int*[row];
-	for(int i = 0; i < row; i++) 
+
+	ptr = new double*[row];
+	for(int i = 0; i < row; i++)
 	{
-    	ptr[i] = new int[col];
+    	ptr[i] = new double[col];
 	}
-	
+
 	if (ptr == NULL)
 	{
 		cout << "Error, out of memory." << endl;
-		exit(1);
+		return;
 	}
 }
 
@@ -28,19 +28,19 @@ Matrix::Matrix(const Matrix & matrix)
 {
 	row = matrix.row;
 	col = matrix.col;
-	
-	ptr = new int*[row];
-	for(int i = 0; i < row; i++) 
+
+	ptr = new double*[row];
+	for(int i = 0; i < row; i++)
 	{
-    	ptr[i] = new int[col];
+    	ptr[i] = new double[col];
 	}
-	
+
 	if (ptr == NULL)
 	{
 		cout << "Error, out of memory." << endl;
-		exit (1);
+		return;
 	}
-	
+
 	//Set new matrix array equal to initial matrix using two for-loops
 	for ( int i = 0; i < row; i ++)
 	{
@@ -49,11 +49,11 @@ Matrix::Matrix(const Matrix & matrix)
 			ptr[i][j] = matrix.ptr[i][j];
 		}
 	}
-} 
+}
 
 Matrix::~Matrix()
 {
-	for(int i = 0; i < row; i++) 
+	for(int i = 0; i < row; i++)
 	{
     	delete [] ptr[i];
 	}
@@ -65,7 +65,7 @@ void Matrix::operator = (const Matrix & matrix)
 {
 	if (matrix.row > row || matrix.col > col)
 	{
-		for(int i = 0; i < row; i++) 
+		for(int i = 0; i < row; i++)
 		{
     		delete [] ptr[i];
 		}
@@ -73,13 +73,13 @@ void Matrix::operator = (const Matrix & matrix)
 	}
 	row = matrix.row;
 	col = matrix.col;
-	
-	ptr = new int*[row];
-	for(int i = 0; i < row; i++) 
+
+	ptr = new double*[row];
+	for(int i = 0; i < row; i++)
 	{
-   		ptr[i] = new int[col];
+   		ptr[i] = new double[col];
 	}
-	
+
 	for (int i = 0; i < row; i ++)
 	{
 		for (int j = 0; j < col; j ++)
@@ -93,17 +93,17 @@ void Matrix::input (ifstream &in, Matrix & matrix2)
 {
 	in >> row;
 	in >> col;
-	
+
 	cout << "Matrix 1 row: " << row << endl;
 	cout << "Matrix 1 col: " << col << endl;
-	
-	ptr = new int*[row];
-	
+
+	ptr = new double*[row];
+
 	for (int i = 0; i < row; i ++)
 	{
-		ptr[i] = new int[col];
+		ptr[i] = new double[col];
 	}
-	
+
 	for (int i = 0; i < row; i ++)
 	{
 		for (int j = 0; j < col; j ++)
@@ -111,20 +111,20 @@ void Matrix::input (ifstream &in, Matrix & matrix2)
 			in >> ptr[i][j];
 		}
 	}
-				
+
 	in >> matrix2.row;
 	in >> matrix2.col;
-	
+
 	cout << "Matrix 2 row: " << matrix2.row << endl;
 	cout << "Matrix 2 col: " << matrix2.col << endl;
-	
-	matrix2.ptr = new int*[matrix2.row];
-	
+
+	matrix2.ptr = new double*[matrix2.row];
+
 	for (int i = 0; i < matrix2.row; i ++)
 	{
-		matrix2.ptr[i] = new int[matrix2.col];
+		matrix2.ptr[i] = new double[matrix2.col];
 	}
-	
+
 	for (int i = 0; i < matrix2.row; i ++)
 	{
 		for (int j = 0; j < matrix2.col; j ++)
@@ -151,15 +151,15 @@ Matrix Matrix::operator + (const Matrix & matrix2) const
 	if (!canadd(matrix2))
 	{
 		cout << "Addition cannot be carried out because matrices are not the same size." << endl;
-		exit (1);
+		exit(1);
 	}
 	else
 	{
 		int newrow = row;
 		int newcol = col;
-		
+
 		Matrix sum(newrow, newcol);
-		
+
 		for (int i = 0; i < newrow; i ++)
 		{
 			for (int j = 0; j < newcol; j ++)
@@ -167,7 +167,7 @@ Matrix Matrix::operator + (const Matrix & matrix2) const
 				sum.ptr[i][j] = ptr[i][j] + matrix2.ptr[i][j];
 			}
 		}
-		
+
 		return sum;
 	}
 }
@@ -177,15 +177,15 @@ Matrix Matrix::operator - (const Matrix & matrix2) const
 	if (!canadd(matrix2))
 	{
 		cout << "Addition cannot be carried out because matrices are not the same size." << endl;
-		exit (1);
+		exit(1);
 	}
 	else
 	{
 		int newrow = row;
 		int newcol = col;
-		
+
 		Matrix difference(newrow, newcol);
-		
+
 		for (int i = 0; i < newrow; i ++)
 		{
 			for (int j = 0; j < newcol; j ++)
@@ -195,22 +195,22 @@ Matrix Matrix::operator - (const Matrix & matrix2) const
 		}
 		return difference;
 	}
-} 
+}
 
 Matrix Matrix::operator *(const Matrix & matrix2) const
 {
 	if (!canmultiply(matrix2))
 	{
 		cout << "Multiplication cannot be carried out because matrices are not the same size. " << endl;
-		exit (1);
+		exit(1);
 	}
 	else
 	{
-		int newrow = matrix2.row;
-		int newcol = col;
- 		
+		int newrow = row;
+		int newcol = matrix2.col;
+
 		Matrix product(newrow, newcol);
-				
+
 		for (int i = 0; i < product.row; i++)
 	    {
 	        for(int j = 0; j < product.col; j++)
@@ -248,4 +248,12 @@ ostream& operator <<(ostream &out, const Matrix &matrix)
 		out << endl;
     }
     return out;
+}
+
+int Matrix::getRow ()const {
+	return row;
+}
+
+int Matrix::getCol ()const {
+	return col;
 }

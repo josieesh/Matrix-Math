@@ -6,6 +6,7 @@
 #include <cmath>
 #include <fstream>
 #include <string>
+#include <cstdlib>
 
 using namespace std;
 
@@ -19,30 +20,33 @@ class Matrix
 		Matrix (const Matrix &matrix);
 		//Default Destructor
 		~Matrix ();
-		
+
+		int getRow ()const;
+		int getCol () const;
+
 		//Overloaded functions
 		Matrix operator + (const Matrix & matrix2) const;
 		Matrix operator - (const Matrix & matrix2) const;
 		Matrix operator * (const Matrix & matrix2) const;
-		
+
 		bool canadd (const Matrix & matrix2) const;
 		bool canmultiply (const Matrix & matrix2) const;
 		void print() const;
 		void input (ifstream &in, Matrix & matrix2);
-		
-		//Overloaded assignment operator to help with dynamic memory allocation 
+
+		//Overloaded assignment operator to help with dynamic memory allocation
 		void operator=(const Matrix & matrix);
-		
+
 		//Overloaded friend functions
 		//Friend function used to overload extraction operator <<
 		friend ostream& operator <<(ostream &out, const Matrix &matrix);
 		//Friend function used to overload >> insertion operator >>
 		friend istream& operator >>(istream &in, Matrix &matrix);
-		
+
 	private:
 		int row;
-		int col; 
-		int **ptr; //points to an int array in the memory
+		int col;
+		double **ptr; //points to an int array in the memory
 };
 
 #endif
